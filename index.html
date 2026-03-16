@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ViruTEC — Mix de Maderas Compactas | San Juan, Argentina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --lime:       #8DC63F;
+      --lime-dark:  #6fa32e;
+      --lime-glow:  rgba(141, 198, 63, 0.18);
+      --green:      #1A6B35;
+      --green-dark: #0d3d1e;
+      --cream:      #F6F3EC;
+      --warm:       #EDE8DF;
+      --dark:       #0B140B;
+      --dark2:      #111c11;
+      --text:       #1A1F1A;
+      --muted:      #5a6a5a;
+      --white:      #ffffff;
+      --wa:         #25D366;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ══ NAV ══════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.1rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .35s, box-shadow .35s;
+    }
+    nav.scrolled {
+      background: rgba(11,20,11,.93);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(141,198,63,.12);
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+    }
+    .nav-logo-img { height: 54px; width: auto; display: block; }
+
+    .nav-links {
+      display: flex; gap: 2.2rem; list-style: none;
+    }
+    .nav-links a {
+      font-size: .82rem; letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.55); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--lime); }
+
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: .55rem;
+      background: var(--lime); color: var(--dark);
+      padding: .6rem 1.3rem; border-radius: 4px;
+      font-size: .82rem; font-weight: 500; letter-spacing: .04em;
+      text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .nav-cta:hover { background: #fff; transform: translateY(-1px); }
+
+    /* ══ HERO ══════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      background: var(--dark);
+      position: relative;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    /* Geometric background – echoes the logo's quadrant pattern */
+    .hero-geo {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, rgba(26,107,53,.22) 0%, transparent 55%),
+        linear-gradient(315deg, rgba(141,198,63,.08) 0%, transparent 50%);
+    }
+    .hero-geo::before {
+      content: '';
+      position: absolute; top: 8%; right: 6%;
+      width: min(38vw, 460px); aspect-ratio: 1;
+      border: 1px solid rgba(141,198,63,.15);
+      border-radius: 4px;
+      transform: rotate(8deg);
+    }
+    .hero-geo::after {
+      content: '';
+      position: absolute; top: 15%; right: 10%;
+      width: min(28vw, 340px); aspect-ratio: 1;
+      border: 1px solid rgba(141,198,63,.08);
+      border-radius: 4px;
+      transform: rotate(8deg);
+    }
+
+    /* Product image (right side) */
+    .hero-img {
+      position: absolute;
+      right: 0; bottom: 0;
+      height: 88%;
+      width: auto;
+      max-width: 42vw;
+      object-fit: contain;
+      object-position: bottom right;
+      filter: drop-shadow(-24px 0 60px rgba(0,0,0,.5));
+      opacity: .88;
+      transform: translateX(2%);
+      animation: heroFloat 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroFloat {
+      from { transform: translateX(2%) translateY(0); }
+      to   { transform: translateX(2%) translateY(-12px); }
+    }
+
+    /* Gradient to blend image into bg */
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, var(--dark) 28%, rgba(11,20,11,.55) 60%, transparent 75%),
+        linear-gradient(to top,   var(--dark) 0%, transparent 30%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 2.5rem 5.5rem;
+      max-width: 700px;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .7rem;
+      border: 1px solid rgba(141,198,63,.3);
+      background: rgba(141,198,63,.07);
+      color: var(--lime);
+      font-size: .72rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .38rem 1rem; border-radius: 2px;
+      margin-bottom: 1.8rem;
+      opacity: 0; animation: fadeUp .7s ease .3s forwards;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5.5rem, 15vw, 11.5rem);
+      line-height: .92; letter-spacing: .025em;
+      color: var(--white);
+      opacity: 0; animation: fadeUp .8s ease .5s forwards;
+    }
+    .hero-title .t { color: var(--lime); }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.2vw, 1.45rem);
+      font-style: italic; letter-spacing: .09em;
+      color: rgba(255,255,255,.5);
+      margin: .8rem 0 2.8rem;
+      opacity: 0; animation: fadeUp .8s ease .7s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: .9rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .8s ease .9s forwards;
+    }
+
+    .btn-lime {
+      display: inline-flex; align-items: center; gap: .65rem;
+      background: var(--lime); color: var(--dark);
+      padding: .95rem 2rem; border-radius: 5px;
+      font-size: .92rem; font-weight: 500;
+      text-decoration: none;
+      transition: background .25s, transform .25s, box-shadow .25s;
+    }
+    .btn-lime:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(141,198,63,.3);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .65rem;
+      border: 1px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.7);
+      padding: .95rem 2rem; border-radius: 5px;
+      font-size: .92rem; text-decoration: none;
+      transition: border-color .25s, color .25s;
+    }
+    .btn-ghost:hover { border-color: var(--lime); color: var(--lime); }
+
+    /* Scroll ticker */
+    .hero-ticker {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(141,198,63,.1);
+      padding: .7rem 0;
+      opacity: 0; animation: fadeIn 1s ease 1.5s forwards;
+    }
+    .ticker-track {
+      display: flex; gap: 3rem; width: max-content;
+      animation: tickerMove 28s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .95rem; letter-spacing: .12em;
+      color: rgba(255,255,255,.18);
+      white-space: nowrap;
+    }
+    .ticker-item.hi { color: rgba(141,198,63,.45); }
+    @keyframes tickerMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* ══ SECTION HELPERS ══════════════════════ */
+    .section-wrap { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: flex; align-items: center; gap: .8rem;
+      font-size: .68rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--lime-dark);
+      margin-bottom: 1.6rem;
+    }
+    .section-label::before {
+      content: ''; width: 28px; height: 2px; background: var(--lime);
+    }
+
+    /* ══ ABOUT / EMPRESA ══════════════════════ */
+    .about {
+      padding: 9rem 2.5rem;
+      background: var(--cream);
+      position: relative;
+    }
+    .about::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, var(--lime), transparent);
+    }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      font-weight: 600; line-height: 1.18;
+      color: var(--green-dark); margin-bottom: 1.5rem;
+    }
+    .about-text h2 em { font-style: italic; color: var(--green); }
+
+    .about-text p {
+      font-size: .97rem; line-height: 1.85;
+      color: var(--muted); margin-bottom: 1.1rem;
+    }
+
+    /* Product image card */
+    .prod-card {
+      position: relative;
+      border-radius: 10px; overflow: hidden;
+    }
+    .prod-img-wrap {
+      border-radius: 10px; overflow: hidden;
+      background: var(--warm);
+      padding: 2rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,.1);
+    }
+    .prod-img-wrap img {
+      width: 100%; display: block; border-radius: 6px;
+    }
+
+
+    /* ══ FEATURES ══════════════════════════════ */
+    .features {
+      padding: 9rem 2.5rem;
+      background: var(--dark2);
+      position: relative; overflow: hidden;
+    }
+    .features::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 75% 40%, rgba(26,107,53,.18) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .features-watermark {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22vw; color: rgba(255,255,255,.025);
+      white-space: nowrap; pointer-events: none; user-select: none;
+    }
+
+    .features-head {
+      text-align: center; margin-bottom: 4.5rem; position: relative; z-index: 1;
+    }
+    .features-head .section-label { justify-content: center; color: rgba(141,198,63,.6); }
+    .features-head h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      color: var(--white); letter-spacing: .05em; margin-bottom: .9rem;
+    }
+    .features-head p { color: rgba(255,255,255,.4); font-size: .95rem; max-width: 480px; margin: 0 auto; }
+
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      position: relative; z-index: 1; max-width: 1100px; margin: 0 auto;
+      border: 1px solid rgba(141,198,63,.08); border-radius: 8px; overflow: hidden;
+    }
+    .feat {
+      padding: 2.6rem;
+      border-right: 1px solid rgba(141,198,63,.06);
+      border-bottom: 1px solid rgba(141,198,63,.06);
+      transition: background .3s;
+      position: relative;
+    }
+    .feat:hover { background: rgba(26,107,53,.12); }
+    .feat:nth-child(3n) { border-right: none; }
+
+    .feat h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem; letter-spacing: .05em;
+      color: var(--lime); margin-bottom: .75rem;
+    }
+    .feat p { font-size: .88rem; line-height: 1.75; color: rgba(255,255,255,.45); }
+
+    /* ══ KEYWORDS WALL ════════════════════════ */
+    .kw-wall {
+      padding: 6rem 2.5rem;
+      background: var(--green-dark);
+      overflow: hidden; position: relative;
+    }
+    .kw-wall::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(141,198,63,.06) 0%, transparent 60%);
+    }
+    .kw-flow {
+      display: flex; flex-wrap: wrap;
+      gap: .7rem 1rem;
+      justify-content: center;
+      max-width: 960px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .kw {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: .04em; color: var(--white);
+      transition: color .2s;
+    }
+    .kw:hover { color: var(--lime); }
+    .kw.xl  { font-size: clamp(1.9rem, 4.5vw, 3.2rem); color: var(--lime); }
+    .kw.lg  { font-size: clamp(1.4rem, 3vw, 2.3rem); }
+    .kw.md  { font-size: clamp(1rem, 2vw, 1.6rem); color: rgba(255,255,255,.65); }
+    .kw.sm  { font-size: clamp(.75rem, 1.4vw, 1rem); color: rgba(255,255,255,.38); letter-spacing: .14em; }
+    .kw-dot { font-size: 1rem; color: rgba(141,198,63,.4); align-self: center; }
+
+    /* ══ CONTACT + MAP ═════════════════════════ */
+    .contact {
+      padding: 9rem 2.5rem;
+      background: var(--cream);
+      position: relative;
+    }
+    .contact::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(to right, transparent, var(--lime), transparent);
+    }
+
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      gap: 5rem; align-items: start;
+    }
+
+    .contact-info h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600; line-height: 1.2;
+      color: var(--green-dark); margin-bottom: 2.5rem;
+    }
+
+    .citem {
+      display: flex; gap: 1.1rem; margin-bottom: 2rem;
+    }
+    .citem-icon {
+      width: 46px; height: 46px;
+      background: var(--dark); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--lime);
+    }
+    .citem-body label {
+      display: block; font-size: .68rem; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: .3rem;
+    }
+    .citem-body a, .citem-body span {
+      color: var(--text); text-decoration: none;
+      font-size: .97rem; line-height: 1.5;
+      transition: color .2s;
+    }
+    .citem-body a:hover { color: var(--green); }
+
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: .9rem;
+      background: var(--wa); color: #fff;
+      padding: 1rem 2rem; border-radius: 6px;
+      font-size: .97rem; font-weight: 500; text-decoration: none;
+      margin-top: .5rem;
+      box-shadow: 0 6px 24px rgba(37,211,102,.22);
+      transition: background .25s, transform .25s, box-shadow .25s;
+    }
+    .wa-btn:hover {
+      background: #1da851;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37,211,102,.32);
+    }
+
+    .map-col {}
+    .map-frame {
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.13);
+      height: 420px;
+    }
+    .map-frame iframe {
+      width: 100%; height: 100%; border: 0; display: block;
+    }
+    .map-caption {
+      margin-top: .9rem;
+      display: flex; align-items: center; gap: .55rem;
+      font-size: .83rem; color: var(--muted);
+    }
+    .map-caption svg { color: var(--green); flex-shrink: 0; }
+
+    /* ══ FOOTER ═══════════════════════════════ */
+    footer {
+      background: var(--dark);
+      padding: 2.8rem 2.5rem;
+    }
+    .footer-in {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.2rem;
+    }
+    .footer-brand {}
+    .footer-logo-img { height: 52px; width: auto; display: block; }
+    .footer-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .85rem;
+      color: rgba(255,255,255,.3); margin-top: .15rem;
+    }
+    .footer-copy { font-size: .72rem; color: rgba(255,255,255,.22); }
+
+    /* ══ SCROLL REVEAL ════════════════════════ */
+    .sr {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .sr.in { opacity: 1; transform: none; }
+    .sr.d1 { transition-delay: .1s; }
+    .sr.d2 { transition-delay: .2s; }
+    .sr.d3 { transition-delay: .3s; }
+    .sr.d4 { transition-delay: .4s; }
+
+    /* ══ RESPONSIVE ════════════════════════════ */
+    @media (max-width: 900px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+.hero-img { max-width: 55vw; opacity: .4; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.4rem; }
+      .hero-content { padding: 0 1.4rem 5rem; }
+      .about, .features, .contact { padding: 6rem 1.4rem; }
+      .kw-wall { padding: 4rem 1.4rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-img { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ██ NAV ██ -->
+<nav id="mainNav">
+  <div class="nav-logo"><img src="logo.png" alt="ViruTEC" class="nav-logo-img" /></div>
+  <ul class="nav-links">
+    <li><a href="#producto">Producto</a></li>
+    <li><a href="#caracteristicas">Características</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a class="nav-cta"
+     href="https://wa.me/5492644743999?text=Hola%2C%20quisiera%20consultar%20sobre%20ViruTEC%20%F0%9F%90%8E"
+     target="_blank">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.28 7.044L.787 23.213a.5.5 0 0 0 .607.608l4.253-1.476A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.18 0-4.21-.638-5.912-1.737l-.424-.267-3.373 1.17 1.182-3.28-.283-.44A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+    </svg>
+    Consultar
+  </a>
+</nav>
+
+
+<!-- ██ HERO ██ -->
+<section class="hero" id="inicio">
+  <div class="hero-geo"></div>
+
+  <!-- replace with your actual product image file name -->
+  <img class="hero-img" src="flakes11.png" alt="Bolsas de viruta ViruTEC" id="heroImg" />
+
+  <div class="hero-vignette"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span></span>San Juan, Argentina &nbsp;·&nbsp; Mix de Maderas Compactas
+    </div>
+
+    <h1 class="hero-title">Viru<span class="t">TEC</span></h1>
+    <p class="hero-sub">Camas premium para caballos y animales</p>
+
+    <div class="hero-actions">
+      <a class="btn-lime" href="#contacto">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        Consultar ahora
+      </a>
+      <a class="btn-ghost" href="#producto">
+        Ver producto
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Animated ticker -->
+  <div class="hero-ticker">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+</section>
+
+
+<!-- ██ ABOUT ██ -->
+<section class="about" id="producto">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <div class="about-text sr">
+        <div class="section-label">La empresa</div>
+        <h2>Calidad <em>premium</em><br>para el bienestar animal</h2>
+        <p>ViruTEC es la solución premium en camas de viruta para caballos y animales chicos y grandes. Fabricadas mediante proceso industrial de última tecnología, nuestras virutas provienen de maderas sustentables naturales.</p>
+        <p>Garantizamos un producto higiénico, biodegradable y amigable con el medioambiente, respaldado por normas de bioseguridad estrictas y un compromiso real con el bienestar animal y el cuidado del entorno.</p>
+        <p style="margin-top:.5rem; font-size:.88rem; font-style:italic; color:var(--lime-dark);">
+          Fabricada con maderas sustentables naturales mediante proceso industrial. Altamente absorbente, suave y de gran volumen de cobertura. Su formato compacto la hace fácil de usar, manipular y almacenar. 100% biodegradable.
+        </p>
+      </div>
+
+      <div class="prod-card sr d2">
+        <div class="prod-img-wrap">
+          <!-- replace with your actual product image file name -->
+          <img src="Producto.png" alt="Producto ViruTEC — viruta premium para caballos" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ██ FEATURES ██ -->
+<section class="features" id="caracteristicas">
+  <div class="features-watermark">VIRU</div>
+
+  <div class="features-head sr">
+    <div class="section-label">Características del producto</div>
+    <h2>Lo que nos distingue</h2>
+    <p>Cada bolsa de ViruTEC es el resultado de un proceso industrial riguroso y un compromiso inigualable con la calidad.</p>
+  </div>
+
+  <div class="features-grid section-wrap">
+    <div class="feat sr">
+      <h3>Luz UV + Secado Térmico</h3>
+      <p>Proceso de desinfección con aplicación de luz UV y secado con calor, eliminando agentes patógenos para el más alto estándar de bioseguridad.</p>
+    </div>
+    <div class="feat sr d1">
+      <h3>Maderas Sustentables</h3>
+      <p>Elaborada con maderas sustentables naturales. 100% biodegradable y con bajo impacto ambiental en cada etapa del proceso.</p>
+    </div>
+    <div class="feat sr d2">
+      <h3>Alta Absorción</h3>
+      <p>Altamente absorbente, suave y de gran volumen de cobertura. Brinda el confort y la calidez que tu animal necesita día a día.</p>
+    </div>
+    <div class="feat sr">
+      <h3>Pack Compacto</h3>
+      <p>Formato compacto versátil y fácil de usar, manipular y almacenar. Pensado para el campo y el establo moderno.</p>
+    </div>
+    <div class="feat sr d1">
+      <h3>Normas de Bioseguridad</h3>
+      <p>Cumple con normas de bioseguridad estrictas. Extra limpia, higiénica y libre de patógenos en cada lote producido.</p>
+    </div>
+    <div class="feat sr d2">
+      <h3>Mejor Precio-Calidad</h3>
+      <p>La mejor relación precio-calidad del mercado. Calidad premium al alcance del campo y el criador argentino.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ██ KEYWORD WALL ██ -->
+<section class="kw-wall">
+  <div class="kw-flow">
+    <span class="kw xl">Calidad Premium.</span>
+    <span class="kw md">Extra Limpia y Blanda.</span>
+    <span class="kw-dot">·</span>
+    <span class="kw lg">Proceso Industrial.</span>
+    <span class="kw sm">Altamente Absorbente y Suave.</span>
+    <span class="kw xl">Comodidad.</span>
+    <span class="kw-dot">·</span>
+    <span class="kw md">Maderas Sustentables Naturales.</span>
+    <span class="kw lg">Aplicación de Luz UV.</span>
+    <span class="kw sm">Higiénicas y Biodegradables.</span>
+    <span class="kw-dot">·</span>
+    <span class="kw xl">Durabilidad.</span>
+    <span class="kw md">Gran Volumen de Cobertura.</span>
+    <span class="kw lg">Secado con Calor.</span>
+    <span class="kw-dot">·</span>
+    <span class="kw sm">Pack Compacto · Versátil · Fácil de Usar</span>
+    <span class="kw xl">Bioseguridad.</span>
+    <span class="kw lg">Confort. Calidez.</span>
+    <span class="kw-dot">·</span>
+    <span class="kw md">Relación Precio-Calidad.</span>
+  </div>
+</section>
+
+
+<!-- ██ CONTACT + MAP ██ -->
+<section class="contact" id="contacto">
+  <div class="section-wrap">
+    <div class="contact-grid">
+
+      <div class="contact-info sr">
+        <div class="section-label">Contacto</div>
+        <h2>Hablemos sobre tu pedido</h2>
+
+        <div class="citem">
+          <div class="citem-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="citem-body">
+            <label>Teléfono / WhatsApp</label>
+            <a href="tel:+5492644743999">+54 9 264 474 3999</a>
+          </div>
+        </div>
+
+        <div class="citem">
+          <div class="citem-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="citem-body">
+            <label>Ubicación</label>
+            <span>Av. Joaquín Uñac antes de Calle 6<br>J5427, San Juan, Argentina</span>
+          </div>
+        </div>
+
+        <a class="wa-btn"
+           href="https://wa.me/5492644743999?text=Hola%2C%20quisiera%20consultar%20sobre%20ViruTEC%20%F0%9F%90%8E"
+           target="_blank">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.28 7.044L.787 23.213a.5.5 0 0 0 .607.608l4.253-1.476A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.18 0-4.21-.638-5.912-1.737l-.424-.267-3.373 1.17 1.182-3.28-.283-.44A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          </svg>
+          Escribinos por WhatsApp
+        </a>
+      </div>
+
+      <div class="map-col sr d2">
+        <div class="map-frame">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3398.2785034108288!2d-68.54450082359718!3d-31.59882760509608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96813f68234ff9cb%3A0x90b8b8708f8e81e3!2sBodega%20Brix%20-%20San%20Juan.%20Argentina!5e0!3m2!1ses!2sar!4v1773694887639!5m2!1ses!2sar"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación ViruTEC — San Juan, Argentina">
+          </iframe>
+        </div>
+        <div class="map-caption">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          Av. Joaquín Uñac antes de Calle 6, J5427, San Juan, Argentina
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ██ FOOTER ██ -->
+<footer>
+  <div class="footer-in">
+    <div class="footer-brand">
+      <div class="footer-logo"><img src="logo.png" alt="ViruTEC" class="footer-logo-img" /></div>
+      <div class="footer-tag">Mix de Maderas Compactas · San Juan, Argentina</div>
+    </div>
+    <div class="footer-copy">© 2025 ViruTEC. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+
+<script>
+  /* ── Nav scroll effect ── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 70);
+  }, { passive: true });
+
+  /* ── Scroll reveal ── */
+  const srEls = document.querySelectorAll('.sr');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  srEls.forEach(el => io.observe(el));
+
+  /* ── Hero image fallback (hide if missing) ── */
+  const heroImg = document.getElementById('heroImg');
+  if (heroImg) {
+    heroImg.onerror = () => heroImg.style.display = 'none';
+  }
+
+  /* ── Ticker build ── */
+  const tickerWords = [
+    ['hi','Calidad Premium'], ['','·'], ['','Extra Limpia'], ['','·'],
+    ['hi','Biodegradable'], ['','·'], ['','Luz UV'], ['','·'],
+    ['hi','Alta Absorción'], ['','·'], ['','Sustentable'], ['','·'],
+    ['hi','Bioseguridad'], ['','·'], ['','Secado con Calor'], ['','·'],
+    ['hi','ViruTEC'], ['','·'],
+  ];
+  const full = [...tickerWords, ...tickerWords]; // duplicate for seamless loop
+  const track = document.getElementById('ticker');
+  if (track) {
+    track.innerHTML = full.map(([cls, w]) =>
+      `<span class="ticker-item${cls ? ' ' + cls : ''}">${w}</span>`
+    ).join('');
+  }
+</script>
+</body>
+</html>
